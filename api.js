@@ -1,4 +1,5 @@
 const axios = require('axios');
+const{app_id,app_key} = require('./secret/secret.js');
 
 //to get definitions for given word
 const definitions = async (word) => {
@@ -30,7 +31,7 @@ const examples = async (word) => {
 const synonyms = async (word) => {
   var url = `/entries/en/${word}/synonyms`
   var txt = `Synonyms for '${word}' are :\n`
- 
+  
   await getData(url)
     .then(response => processData(response.data, 'syn'))
     .then(response => print(response, txt, 'syn'))
@@ -73,8 +74,8 @@ function getData (url) {
     method: 'get',
     headers:{
     	'Accept':'application/json',
-    	'app_id':'98e3f493',
-    	'app_key':'e05d25e5c9181fadf08307428ab513a3'
+    	'app_id':app_id,
+    	'app_key':app_key
     }
   })
 }
