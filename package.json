@@ -1,0 +1,24 @@
+{
+  "name": "new-app",
+  "version": "1.0.0",
+  "description": "command-line-dictionary",
+  "main": "command.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tejav433/cmd-dict.git"
+  },
+  "author": "Tejav433",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tejav433/cmd-dict/issues"
+  },
+  "homepage": "https://github.com/Tejav433/cmd-dict#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.0"
+  }
+}
