@@ -34,7 +34,7 @@ The command line tool  have following functions -
    
    ./dict <word> or ./dict dict <word>
 
-It is not there because oxford dictoinaries have no api for word of the day
+   It is not there because oxford dictoinaries have no api for word of the day
 
 6. Word of the Day Full DictDisplay all above details of word of the day
 
@@ -44,15 +44,15 @@ It is not there because oxford dictoinaries have no api for word of the day
 
   ./dict play
   
-  The program should display a definition, synonym, or antonym
+   The program should display a definition, synonym, or antonym
   
-  And ask the user to enter the word
+   And ask the user to enter the word
   
-  If correct word is entered, program should tell that the word is correct
+   If correct word is entered, program should tell that the word is correct
   
-  * Other(not displayed) Synonyms of the word should be accepted as correct answer.
+   * Other(not displayed) Synonyms of the word should be accepted as correct answer.
   
-  If incorrect word is entered, program should ask for
+   If incorrect word is entered, program should ask for
   
     - 1. try again
     
