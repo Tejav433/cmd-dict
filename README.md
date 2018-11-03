@@ -5,7 +5,9 @@ Command Line Dictionary Using Nodejs and Oxforddictionaries (check here https://
 The command line tool  have following functions -
 
 1. Word Definitions
+
     Display definitions of a word.
+    
     ./dict def <word>
 
 2. Word Synonyms
