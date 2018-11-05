@@ -63,19 +63,13 @@ program
   .alias('dic')
   .description('Get ALL')
   .action((word) => {
-    definitions(word,false);
-    examples(word,false);
-    synonyms(word,false);
-    antonyms(word,false);
+   getall(word,false);
 });
 
 program
   .arguments('<word>')
   .action((word) => {
-    definitions(word,false);
-    examples(word,false);
-    synonyms(word,false);
-    antonyms(word,false);
+   getall(word,false);
 });
 
 program
@@ -129,10 +123,7 @@ function repeatgame(option,rand){
     guess(rand);
   }else if(option == 3){
     console.log("\nThe Word is : "+ rand);
-    definitions(rand,false);
-    examples(rand,false);
-    synonyms(rand,false);
-    antonyms(rand,false);
+    getall(rand,false);
   }
 }
 //to get word of the day 
@@ -140,11 +131,15 @@ function wordoftheday(){
   rand = randomwords[Math.floor(Math.random() * randomwords.length)];
   console.log(chalk.blue("\nWord of the Day is : "))
   console.log(chalk.green(rand));
-  definitions(rand,false);
-  examples(rand,false);
-  synonyms(rand,false);
-  antonyms(rand,false);
+  getall(rand,false);
 }
+
+function getall(rand,val){
+  definitions(rand,val);
+  examples(rand,val);
+  synonyms(rand,val);
+  antonyms(rand,val);
+} 
 
 if (!process.argv.slice(2).length) {
   wordoftheday();
