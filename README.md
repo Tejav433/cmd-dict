@@ -34,43 +34,56 @@ The command line tool  have following functions -
    
    ./dict <word> or ./dict dict <word>
 
-   It is not there because oxford dictoinaries have no api for word of the day
-
 6. Word of the Day Full DictDisplay all above details of word of the day
 
    ./dict
 
 7. Word Game
 
-  ./dict play
+     ./dict play
+
+      The program should display a definition, synonym, or antonym
+
+      And ask the user to enter the word
+
+      If correct word is entered, program should tell that the word is correct
+
+      * Other(not displayed) Synonyms of the word should be accepted as correct answer.
+
+      If incorrect word is entered, program should ask for
   
-   The program should display a definition, synonym, or antonym
+          - 1. try again
+
+                Lets user enter word again
+
+          - 2. hint
+
+                Display a hint, and let user enter word again
+
+                Hint can be
+
+                    Display the word randomly jumbled (cat -> atc)
+
+                    OR Display another definition of the word
+
+                    OR Display another antonym of the word
+
+                    OR Display another synonym of the word
+           -3 quit
+
+                 Display the word, its full dict, and quit
+
+
+Usage
+
+After cloning the repository add secret folder in repository directory and in that add secret.js
+
+In that secret.js file add below code
+
+const app_id = '<app_id>';
+
+const app_key = '<app_key>';
+
+module.exports = {app_id,app_key};
   
-   And ask the user to enter the word
-  
-   If correct word is entered, program should tell that the word is correct
-  
-   * Other(not displayed) Synonyms of the word should be accepted as correct answer.
-  
-   If incorrect word is entered, program should ask for
-  
-    - 1. try again
-    
-          Lets user enter word again
-          
-    - 2. hint
-    
-          Display a hint, and let user enter word again
-          
-          Hint can be
-          
-              Display the word randomly jumbled (cat -> atc)
-              
-              OR Display another definition of the word
-              
-              OR Display another antonym of the word
-              
-              OR Display another synonym of the word
-     -3 quit
-     
-           Display the word, its full dict, and quit
+And download the inquirer,commander,chalk,axios packages
