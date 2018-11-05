@@ -4,6 +4,7 @@ const program = require('commander');
 const { prompt } = require('inquirer');
 const chalk = require('chalk');
 const {examples,definitions,synonyms,antonyms,hint,syn} = require('./api');
+//random words for word of the day and game
 const randomwords = ['stick','sloppy','insult','counsel','cuddly','cynical','cattle','gaze','subtract','icy','curvy','display','glitter','romantic','train','reaction','colorful','ink','start','typical','enthusiastic','bash','blue','frail','hot','tearful','bustling','servant','resist','smother','race','plain','cooing','meet','insult','tin','phone','stick','sloppy','rub','sit'];
 var rand;
 
@@ -11,15 +12,14 @@ const q = [
 {
   type:'input',
   name:'word',
-  message:"\nGuess the Word : "
+  message:chalk.magenta("Guess the Word : ")
 }]
 const qq = [
 {
   type:'input',
   name:'option',
-  message:"\nEnter your Choice : "
-}
-]
+  message:chalk.green("Enter your Choice : ")
+}]
 
 
 program 
@@ -36,7 +36,6 @@ program
 
 program
   .command('syn <word>')
-
   .alias('s')
   .description('Get Synonyms')
   .action((word) => {
@@ -69,6 +68,7 @@ program
     synonyms(word,false);
     antonyms(word,false);
 });
+
 program
   .arguments('<word>')
   .action((word) => {
@@ -78,31 +78,32 @@ program
     antonyms(word,false);
 });
 
-
-
 program
   .command('play')
   .alias('p')
+  .description('Play Word Guessing Game')
   .action(() =>{
-    console.log("\nLet's Play Game :");
+    console.log(chalk.cyan("\n*************Let's Play Game **************"))
     rand = randomwords[Math.floor(Math.random() * randomwords.length)];
     definitions(rand,true);
     synonyms(rand,true);
     antonyms(rand,true);
-    guess(rand);
-    
-  });
+    guess(rand); 
+});
+
+//to ask question guess the word
 function guess(rand){
   prompt(q).then(answers =>
   checkresult(answers,rand))
 }
+//check the result and repeat process if wrong
 function checkresult(word,rand){
   var removed = syn.splice(0,1);
   if((word.word == rand) ||syn.includes(word.word)){
-    console.log(chalk.green("You're Right !!"));
+    console.log(chalk.green("\nYou're Right !!"));
 
   }else{
-    console.log(chalk.yellow(`You guessed wrong :/
+    console.log(chalk.yellow(`\nYou guessed wrong :/
 
         1: Guess again
         2: New hint
@@ -112,12 +113,13 @@ function checkresult(word,rand){
   }
   syn.splice(0, 0, removed[0]);
 }
-
+//if guess word wrong options to display
 function repeat(rand){
   prompt(qq).then(answers =>
   repeatgame(answers,rand))
 }
 
+//repeat the process till quit or right answer
 function repeatgame(option,rand){
   var option = option.option
   if(option == 1){
@@ -131,14 +133,22 @@ function repeatgame(option,rand){
     examples(rand,false);
     synonyms(rand,false);
     antonyms(rand,false);
-
   }
-
+}
+//to get word of the day 
+function wordoftheday(){
+  rand = randomwords[Math.floor(Math.random() * randomwords.length)];
+  console.log(chalk.blue("\nWord of the Day is : "))
+  console.log(chalk.green(rand));
+  definitions(rand,false);
+  examples(rand,false);
+  synonyms(rand,false);
+  antonyms(rand,false);
 }
 
-
-if (!process.argv.slice(2).length || !/[arudl]/.test(process.argv.slice(2))) {
-  program.outputHelp();
-  process.exit();
+if (!process.argv.slice(2).length) {
+  wordoftheday();
+  // program.outputHelp();
+  // process.exit();
 }
 program.parse(process.argv)

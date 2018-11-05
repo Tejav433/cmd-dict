@@ -40,7 +40,7 @@ const synonyms = async (word,type) => {
   await getData(url)
     .then(response => processData(response.data))
     .then(response => print(response, txt, 'synonyms',type))
-    .catch(err => console.log(chalk.red("Synonyms are :\n No entries found for synonyms")))
+    .catch(err => console.log(chalk.blue("\nSynonyms are :\n")+chalk.red("No entries found for synonyms\n")))
 
   return Promise.resolve()
 }
@@ -53,13 +53,11 @@ const antonyms = async (word,type) => {
   await getData(url)
     .then(response => processData(response.data))
     .then(response => print(response, txt, 'antonyms',type))
-    .catch(err => console.log(chalk.red("Antonyms are :\n No entries found for Antonyms ")))
+    .catch(err => console.log(chalk.blue("\nAntonyms are :\n")+chalk.red("No entries found for Antonyms\n")))
 
   return Promise.resolve()
 }
-
-
-
+//jumble the given word
 function jumble (word) {
   word = word.split('')
   for (var i = word.length - 1; i >= 0; i--) {
@@ -69,11 +67,11 @@ function jumble (word) {
     word[rand] = temp
   }
   word = word.join('')
-  return word
+  console.log(chalk.blue("\njumble Word :\n"))
+  console.log(word+"\n");
 }
 
 // GET request
-
 function getData (url) {
   return axios({
     url: url,
@@ -88,52 +86,47 @@ function getData (url) {
 }
 
 // data formatting
-
 function processData (response) {
   return Promise.resolve(response)
 }
 
 // print function
-
 function print (response, txt, id,type) {
-
-	console.log("\n"+chalk.blue(txt));
+  console.log("\n"+chalk.blue(txt));
 	eachRecursive(response,txt,id,type);
 	if(type){
 		getprint(id,0);
 	}
 }
 
-
+//recursively iterate the response json and print the required data
 function eachRecursive(obj,txt,id,type)
 {
-	
-    for (var k in obj)
-    {
-        if (typeof obj[k] == "object" && obj[k] !== null){
-        	if(id != "definitions"){
-	        	if(k == id){
-	        		if(type){
-	        			store(obj[k][0].text,id);
-	        		}else{
-	        			console.log(chalk.green(obj[k][0].text))
-	        		}
-	        	}
+	for (var k in obj)
+  {
+    if (typeof obj[k] == "object" && obj[k] !== null){
+      if(id != "definitions"){
+	      if(k == id){
+	        if(type){
+	        	store(obj[k][0].text,id);
 	        }else{
-	        	
-	        	if(k == 'senses' || k== 'subsenses' ){
-	        		if(type){
-	        			store(obj[k][0].definitions,id)
-	        		}else{
-	        			console.log(chalk.green(obj[k][0].definitions));
-	        		}
-	        	}
+	        	console.log(chalk.green(obj[k][0].text))
 	        }
-	        eachRecursive(obj[k],txt,id,type);
-        }
+	      }
+	    }else{
+	      if(k == 'senses' || k== 'subsenses' ){
+	        if(type){
+	        	store(obj[k][0].definitions,id)
+	        }else{
+	        	console.log(chalk.green(obj[k][0].definitions));
+	        }
+	      }
+      }
+      eachRecursive(obj[k],txt,id,type);
+	  }
 	}
 }
-
+//storing synonyms and antonyms,definitions to show hint
 function store(obj,type){
 	if(type == "synonyms"){
 		syn.push(obj);
@@ -144,6 +137,7 @@ function store(obj,type){
 	}
 }
 function getprint(id,index){
+  console.log("\n");
 	if(id == "synonyms"){
 		console.log(syn[index]);
 	}else if(id == "antonyms"){
@@ -151,30 +145,37 @@ function getprint(id,index){
 	}else if(id == "definitions"){
 		console.log(def[index]);
 	}
+  console.log("\n");
 }
 
+//generating hint randomly for guessing game
 const hint = async(rand) => {
-  
-  var hi = Math.floor(Math.random() * (4 - 1) + 1);
+  var hi = Math.floor(Math.random() * (5 - 1) + 1);
   console.log(chalk.red("\n HINT :"))
   if(hi == 1){
-    var r = Math.floor(Math.random() * syn.length);
-    console.log(chalk.blue("\n Synonym :"))
-    getprint('synonyms',r);
-    var removed = syn.splice(r,1);
-    syn.splice(0, 0, removed[0]);
+    if(syn.length){
+      var r = Math.floor(Math.random() * syn.length);
+      console.log(chalk.blue("\n Synonym :"))
+      getprint('synonyms',r);
+      var removed = syn.splice(r,1);
+      syn.splice(0, 0, removed[0]);
+    }else{
+      jumble(rand);
+    }
   }else if(hi == 2){
-  	var r = Math.floor(Math.random() * ant.length);
-  	console.log(chalk.blue("\n Antonym :"))
-    getprint('antonyms',r);
+    if(ant.length){
+    	var r = Math.floor(Math.random() * ant.length);
+    	console.log(chalk.blue("\n Antonym :"))
+      getprint('antonyms',r);
+    }else{
+       jumble(rand);
+    }
   }else if(hi == 3){
   	var r = Math.floor(Math.random() * def.length);
   	console.log(chalk.blue("\n Definition :"))
     getprint('definitions',r);
   }else{
-  	 var ju = jumble(rand);
-  	 console.log(chalk.blue("\njumble Word :"))
-  	 console.log(ju)
+  	 jumble(rand);
   }
 
 }
